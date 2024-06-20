@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 function App() {
-  const [server, setServer] = useState()
+  const [server, setServer] = useState([])
 
   useEffect(() => {
-  fetch('/test')
-  .then(response => response.json())
-  .then(
-    data => {
-      setServer(data)
-    }
-  )
+  fetch('http://localhost:8080/')
+  .then(res => res.json())
+  .then(data => setServer(data))
   }, [])
   return (
     <div>
