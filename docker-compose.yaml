@@ -10,13 +10,15 @@ services:
       - ./app-backend:/app
     environment:
       DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: postgres
       DB_USER: postgres
       DB_PASSWORD: docker
-      DB_NAME: postgres
     depends_on:
       - postgres
     networks:
       - app-network
+
     stdin_open: true
     tty: true
     command: npm run dev
@@ -62,46 +64,3 @@ volumes:
 networks:
   app-network:
     driver: bridge
-
-# version: "3.1"
-# services:
-
-#   backend:
-#     build: ./app-backend
-#     container_name: backend
-#     ports:
-#       -'8080:8080'
-#     volumes:
-#       -/app-backend:app
-
-#   frontend:
-#     build: ./app-frontend
-#     container_name: frontend
-#     ports:
-#       - '3000:3000'
-#     volumes:
-#       - ./app-frontend:/app
-#       # - ./app/node_modules
-#     # stdin_open: true
-#     # tty: true
-
-#     db:
-#     image: postgres
-#     container_name: db
-#     ports:
-#       - "5432:5432"
-#     environment:
-#       POSTGRES_USER: postgres
-#       POSTGRES_PASSWORD: docker
-#       POSTGRES_DB: space_database
-#     healthcheck:
-#       test: ["CMD-SHELL", "pg_isready -U postgres"]
-#       interval: 5s
-#       timeout: 5s
-#       retries: 10
-#       start_period: 20s
-#     volumes:
-#       - data-store:/var/lib/postgresql/data
-
-# volumes:
-#   data-store:

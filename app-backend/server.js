@@ -6,7 +6,7 @@ const port = 8080;
 // Enable CORS for all routes
 app.use(cors());
 app.get('/', (req, res) => {
-  res.send(['Good', 'stuff'])
+  res.send(['Good', 'stuff', 'there'])
 })
 
 app.listen(port, () => { console.log(`App listening at http://localhost:${port}`) })
