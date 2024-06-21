@@ -8,8 +8,9 @@ exports.up = function(knex) {
     table.integer('user_id').unsigned().notNullable();
     table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE');
     table.string('name');
-    table.text('description');
     table.integer('quantity');
+    table.string('image');
+    table.text('description');
   });
 };
 

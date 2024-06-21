@@ -14,5 +14,10 @@ exports.seed = async function(knex) {
       last_name: 'Doe',
       username: 'JohnDoe',
       password: bcrypt.hashSync("Password123", saltRounds)},
+      {id: 2,
+        first_name: 'Jane',
+        last_name: 'Doe',
+        username: 'JaneDoe',
+        password: bcrypt.hashSync("NewPassword321", saltRounds)},
   ]);
 };

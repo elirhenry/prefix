@@ -1,31 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import './App.css';
+import Home from './Components/Home';
+// import Inventory from './Components/Inventory';
+// import ProductDetails from './Components/ProductDetails';
+import Header from './Components/Header';
+// import AddItem from './Components/AddItem';
+// import UpdateItem from './Components/UpdateItem';
+import Profile from './Components/Profile';
+// import MyInventory from './Components/MyInventory';
+import VisitorInventory from './Components/Visitor-Inventory';
+
+//////////////////////////////////////////////////
 
 function App() {
-  const [server, setServer] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:8080/')
-      .then(res => {
-        console.log('Response status:', res.status); // Log the HTTP response status
-        return res.json();
-      })
-      .then(data => {
-        console.log('Data from server:', data); // Log the data received from the server
-        setServer(data);
-      })
-      .catch(err => console.error('Fetch error:', err)); // Log any fetch errors
-  }, []);
-
   return (
-    <div>
-      <p>Cookies!</p>
-      <ul>
-        {server.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+    <div className="App">
+      <Header/>
+      <Router>
+        <Routes>
+          <Route path={'/'} element={<Home/>}></Route>
+          {/* <Route path={'/inventory'} element={<Inventory/>}></Route>
+          <Route path={'/details'} element={<ProductDetails/>}></Route> */}
+          {/* <Route path={'/add-item'} element={<AddItem/>}></Route>
+          <Route path={'/update-item'} element={<UpdateItem/>}></Route> */}
+          <Route path={'/profile'} element={<Profile/>}></Route>
+          {/* <Route path={'/my-store'} element={<MyInventory/>}></Route> */}
+          <Route path={'/visitor'} element={<VisitorInventory/>}></Route>
+        </Routes>
+      </Router>
     </div>
   );
 }
 
+//////////////////////////////////////////////////
+
 export default App;
+
