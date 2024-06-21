@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 //////////////////////////////////////////////////
 
-const Header = () => {
+const Navbar = () => {
   return (
     <div>
       <HeaderStyle>
@@ -38,4 +38,4 @@ const HeaderLink = styled.a`
 
 //////////////////////////////////////////////////
 
-export default Header;
+export default Navbar;
