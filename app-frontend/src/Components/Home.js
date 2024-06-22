@@ -28,7 +28,7 @@ const Home = () => {
         console.log('Login successful, received data:', data);
         localStorage.setItem('user', JSON.stringify(data));
         alert('Login success');
-        navigate('/visitor');
+        navigate('/user');
       } else {
         const errorData = await response.json();
         console.log('Login failed, error data:', errorData);
@@ -99,7 +99,7 @@ text-align:center;
 
 const VisitorLink = styled(Link)`
   color: blue;
-  font-size:25px;
+  font-size: 25px;
 `
 const LoginBox = styled.div`
   text-align:center;
@@ -111,7 +111,7 @@ const LoginBox = styled.div`
   padding: 20px;`
 
 const Title =styled.div`
-font-size:20px;
+font-size:25px;
 `
 
 const Label = styled.div`

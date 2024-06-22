@@ -8,7 +8,7 @@ import Navbar from './Components/Navbar';
 // import AddItem from './Components/AddItem';
 // import UpdateItem from './Components/UpdateItem';
 import Profile from './Components/Profile';
-// import MyInventory from './Components/MyInventory';
+import UserInventory from './Components/UserInventory';
 import VisitorInventory from './Components/VisitorInventory';
 
 //////////////////////////////////////////////////
@@ -25,7 +25,7 @@ function App() {
           {/* <Route path={'/add-item'} element={<AddItem/>}></Route>
           <Route path={'/update-item'} element={<UpdateItem/>}></Route> */}
           <Route path={'/profile'} element={<Profile/>}></Route>
-          {/* <Route path={'/my-store'} element={<MyInventory/>}></Route> */}
+          <Route path={'/user'} element={<UserInventory/>}></Route>
           <Route path={'/visitor'} element={<VisitorInventory/>}></Route>
         </Routes>
       </Router>
