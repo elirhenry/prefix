@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const knex = require('knex');
-const config = require('./knexfile'); // Ensure this path is correct
+const config = require('./knexfile');
 
 const app = express();
 const port = 8080;
@@ -10,7 +10,7 @@ const port = 8080;
 app.use(cors());
 app.use(express.json());
 
-const db = knex(config.development); // Initialize knex instance with development configuration
+const db = knex(config.development);
 
 //GET list of users
 app.get('/users', (req, res) => {
@@ -66,7 +66,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Get items based on user_id
+// GET items based on user_id
 app.get('/items/:user_id', async (req, res) => {
   const { user_id } = req.params;
 
@@ -79,18 +79,39 @@ app.get('/items/:user_id', async (req, res) => {
   }
 });
 
+//POST new users and items
 
+// POST new users
+app.post('/auth/signup', async (req, res) => {
+  try {
+    const { first_name, last_name, username, password } = req.body;
 
-// app.post('/users', async (req, res) => {
-//   try {
-//     const { first_name, last_name, username } = req.body;
-//     const [newUserId] = await knex('users').insert({ first_name, last_name, username }).returning('id');
-//     res.status(201).json({ id: newUserId, first_name, last_name, username });
-//   } catch (error) {
-//     console.error('Error adding user:', error);
-//     res.status(500).json({ error: 'An error occurred while adding the user' });
-//   }
-// });
+    // Check if the username already exists
+    const existingUser = await db('users').where({ username }).first();
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert the new user into the database
+    const [newUserId] = await db('users').insert({
+      first_name,
+      last_name,
+      username,
+      password: hashedPassword
+    }).returning('id');
+
+    // You can also create initial items for the user if needed
+    // await db('items').insert({ user_id: newUserId, name: 'Initial Item', quantity: 1 });
+
+    res.status(201).json({ id: newUserId, first_name, last_name, username });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ error: 'An error occurred while registering the user' });
+  }
+});
 
 // app.post('/items', async (req, res) => {
 //   try {
