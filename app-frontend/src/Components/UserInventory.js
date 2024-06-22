@@ -5,16 +5,27 @@ import { Link } from 'react-router-dom';
 //////////////////////////////////////////////////
 
 const UserInventory = () => {
-  const[data, setData] = useState([])
+  const [data, setData] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8080/items')
-      .then(response => response.json())
-      .then(data => {
-        setData(data);
-      })
-      .catch(err => console.log(err));
-  }, [data]);
+    // Retrieve user from local storage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setUserId(storedUser.id);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      fetch(`http://localhost:8080/items/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+          setData(data);
+        })
+        .catch(err => console.log(err));
+    }
+  }, [userId]);
 
   return (
     <div className='container mt-5'>
@@ -43,7 +54,6 @@ const UserInventory = () => {
           ))}
         </tbody>
       </StyledTable>
-
     </div>
   );
 };

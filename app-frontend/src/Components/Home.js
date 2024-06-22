@@ -16,23 +16,20 @@ const Home = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log('Attempting login with:', userData);
       const response = await fetch('http://localhost:8080/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
       });
-      console.log('Response status:', response.status);
+
       if (response.ok) {
         const data = await response.json();
-        console.log('Login successful, received data:', data);
         localStorage.setItem('user', JSON.stringify(data));
-        alert('Login success');
+        alert('Login successful');
         navigate('/user');
       } else {
         const errorData = await response.json();
-        console.log('Login failed, error data:', errorData);
-        throw new Error(errorData.error || 'Invalid credentials');
+        throw new Error(errorData.error || 'Login failed');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -40,6 +37,7 @@ const Home = () => {
       alert('Login failed: ' + error.message);
     }
   };
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
