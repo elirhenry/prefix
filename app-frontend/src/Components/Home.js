@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import LoginButton from './LoginButton';
-import LogoutButton from './LogoutButton';
-import Profile from './Profile';
-import { useAuth0 } from '@auth0/auth0-react';
 
 //////////////////////////////////////////////////
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css';
 import Home from './Components/Home';
-// import Inventory from './Components/Inventory';
+import Register from './Components/Register';
 // import ProductDetails from './Components/ProductDetails';
 import Navbar from './Components/Navbar';
 // import AddItem from './Components/AddItem';
@@ -20,7 +20,7 @@ function App() {
       <Router>
         <Routes>
           <Route path={'/'} element={<Home/>}></Route>
-          {/* <Route path={'/inventory'} element={<Inventory/>}></Route> */}
+          <Route path={'/register'} element={<Register/>}></Route>
           {/* <Route path={'/details'} element={<ProductDetails/>}></Route> */}
           {/* <Route path={'/add-item'} element={<AddItem/>}></Route>
           <Route path={'/update-item'} element={<UpdateItem/>}></Route> */}
