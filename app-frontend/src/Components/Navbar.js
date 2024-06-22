@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <div>
       <HeaderStyle>
-        <HeaderLink href='/'>Saber-base</HeaderLink>
+        <HeaderLink href='/'>Saber-tory</HeaderLink>
       </HeaderStyle>
     </div>
   );

@@ -9,7 +9,7 @@ import Navbar from './Components/Navbar';
 // import UpdateItem from './Components/UpdateItem';
 import Profile from './Components/Profile';
 // import MyInventory from './Components/MyInventory';
-import VisitorInventory from './Components/Visitor-Inventory';
+import VisitorInventory from './Components/VisitorInventory';
 
 //////////////////////////////////////////////////
 

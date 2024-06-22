@@ -51,6 +51,7 @@ const Home = () => {
       <Visitor>
         <p>Click here for:</p>
         <VisitorLink to={'/visitor'}>Visitor View</VisitorLink>
+        <p>or log in below</p>
       </Visitor>
       <LoginBox>
         <Title>Login</Title>
@@ -88,14 +89,17 @@ const Home = () => {
 //////////////////////////////////////////////////
 
 const Visitor =styled.div`
-font-size:20px;
-text-align: center;
-top: 20%;
-`
+text-align:center;
+  border: 2px solid;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 23px;`
 
 const VisitorLink = styled(Link)`
   color: blue;
-
+  font-size:25px;
 `
 const LoginBox = styled.div`
   text-align:center;
