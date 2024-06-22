@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 const UserInventory = () => {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
-    // Retrieve user from local storage
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) {
       setUserId(storedUser.id);
@@ -25,7 +25,12 @@ const UserInventory = () => {
         })
         .catch(err => console.log(err));
     }
-  }, [userId]);
+  }, [userId, refresh]);
+
+  const handleAddItem = () => {
+    setRefresh(prev => prev + 1);
+  };
+
 
   return (
     <div className='container mt-5'>

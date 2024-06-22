@@ -113,17 +113,24 @@ app.post('/auth/signup', async (req, res) => {
   }
 });
 
-// app.post('/items', async (req, res) => {
-//   try {
-//     const { user_id, name, quantity, image, description } = req.body;
-//     const [newItemId] = await knex('items').insert({ user_id, name, quantity, image, description }).returning('id');
-//     res.status(201).json({ id: newItemId, user_id, name, quantity, image, description });
-//   } catch (error) {
-//     console.error('Error adding item:', error);
-//     res.status(500).json({ error: 'An error occurred while adding the item' });
-//   }
-// });
+app.post('/items', async (req, res) => {
+  try {
+    const { user_id, name, quantity, description, image } = req.body;
 
+    const [newItemId] = await db('items').insert({
+      user_id,
+      name,
+      quantity,
+      image,
+      description
+    }).returning('id');
+
+    res.status(201).json({ id: newItemId, user_id, name, quantity, image, description });
+  } catch (error) {
+    console.error('Error adding item:', error);
+    res.status(500).json({ error: 'An error occurred while adding the item' });
+  }
+});
 
 
 app.listen(port, () => { console.log(`App listening at http://localhost:${port}`) })
