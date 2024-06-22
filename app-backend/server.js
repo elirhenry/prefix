@@ -4,8 +4,40 @@ const app = express();
 const port = 8080;
 app.use(cors());
 const knex = require('knex')( require('./knexfile')['development'])
+const bcrypt = require('bcrypt');
 
 app.use(express.json())
+
+app.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    console.log('Login attempt for username:', username);
+
+    const user = await knex('users').where({ username }).first();
+    console.log('User from database:', user);
+
+    if (!user) {
+      console.log('User not found:', username);
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    console.log('User found, comparing passwords');
+    const validPassword = await bcrypt.compare(password, user.password);
+    console.log('Password valid:', validPassword);
+
+    if (!validPassword) {
+      console.log('Invalid password for user:', username);
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    console.log('Login successful for user:', username);
+    const { password: _, ...userData } = user;
+    res.json(userData);
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'An error occurred during login' });
+  }
+});
 
 app.get('/', (req, res) => {
   res.send(['Database Available'])
