@@ -47,7 +47,6 @@ app.post('/login', async (req, res) => {
       console.log('User not found:', username);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-
     console.log('User found, comparing passwords');
     const validPassword = await bcrypt.compare(password, user.password);
     console.log('Password valid:', validPassword);
@@ -56,7 +55,6 @@ app.post('/login', async (req, res) => {
       console.log('Invalid password for user:', username);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-
     console.log('Login successful for user:', username);
     const { password: _, ...userData } = user;
     res.json(userData);
@@ -85,33 +83,25 @@ app.get('/items/:user_id', async (req, res) => {
 app.post('/auth/signup', async (req, res) => {
   try {
     const { first_name, last_name, username, password } = req.body;
-
-    // Check if the username already exists
     const existingUser = await db('users').where({ username }).first();
     if (existingUser) {
       return res.status(400).json({ error: 'Username already exists' });
     }
-
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Insert the new user into the database
     const [newUserId] = await db('users').insert({
       first_name,
       last_name,
       username,
       password: hashedPassword
     }).returning('id');
-
-    // You can also create initial items for the user if needed
-    // await db('items').insert({ user_id: newUserId, name: 'Initial Item', quantity: 1 });
-
     res.status(201).json({ id: newUserId, first_name, last_name, username });
   } catch (error) {
     console.error('Error registering user:', error);
     res.status(500).json({ error: 'An error occurred while registering the user' });
   }
 });
+
+//POST a new item
 
 app.post('/items', async (req, res) => {
   try {
@@ -132,5 +122,27 @@ app.post('/items', async (req, res) => {
   }
 });
 
+// DELETE an item
+app.delete('/items/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user_id } = req.body; // Assuming you'll send the user_id in the request body for verification
+
+    // First, check if the item belongs to the user
+    const item = await db('items').where({ id, user_id }).first();
+
+    if (!item) {
+      return res.status(404).json({ error: 'Item not found or you do not have permission to delete this item' });
+    }
+
+    // If the item exists and belongs to the user, delete it
+    await db('items').where({ id }).del();
+
+    res.json({ message: 'Item deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    res.status(500).json({ error: 'An error occurred while deleting the item' });
+  }
+});
 
 app.listen(port, () => { console.log(`App listening at http://localhost:${port}`) })

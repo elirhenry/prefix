@@ -31,6 +31,29 @@ const UserInventory = () => {
     setRefresh(prev => prev + 1);
   };
 
+  const handleDelete = async (itemId) => {
+    if (window.confirm('Delete this forever, are you sure?')) {
+      try {
+        const response = await fetch(`http://localhost:8080/items/${itemId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ user_id: userId }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete item');
+        }
+
+        // Remove the deleted item from the local state
+        setData(prevData => prevData.filter(item => item.id !== itemId));
+      } catch (error) {
+        console.error('Error deleting item:', error);
+        alert('Failed to delete item. Please try again.');
+      }
+    }
+  };
 
   return (
     <div className='container mt-5'>
@@ -42,19 +65,22 @@ const UserInventory = () => {
             <th>Name</th>
             <th>Stock</th>
             <th>Description</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {data.map((item, index) => (
             <tr key={index}>
               <td>{item.id}</td>
-                <DetailsLink to={'/details'}>
-                  <td>{item.name}</td>
-                </DetailsLink>
+              <DetailsLink to={'/details'}>
+                <td>{item.name}</td>
+              </DetailsLink>
               <td>{item.quantity}</td>
               <td>{item.description.substring(0, 100)}{item.description.length > 100 ? '...' : ''}</td>
               <EditButton><button>Edit</button></EditButton>
-              <DeleteButton><button>Delete</button></DeleteButton>
+              <DeleteButton>
+                <button onClick={() => handleDelete(item.id)}>Delete</button>
+              </DeleteButton>
             </tr>
           ))}
         </tbody>
