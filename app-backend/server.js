@@ -175,4 +175,21 @@ app.patch('/items/:id', async (req, res) => {
   }
 });
 
+//GET product details
+app.get('/product/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const item = await db('items').where({ id }).first();
+
+    if (!item) {
+      return res.status(404).json({ error: 'Item not found' });
+    }
+
+    res.json(item);
+  } catch (error) {
+    console.error('Error fetching item:', error);
+    res.status(500).json({ error: 'An error occurred while fetching the item' });
+  }
+});
+
 app.listen(port, () => { console.log(`App listening at http://localhost:${port}`) })

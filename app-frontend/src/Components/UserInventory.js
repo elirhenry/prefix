@@ -90,9 +90,7 @@ const UserInventory = () => {
           {data.map((item, index) => (
             <tr key={index}>
               <td>{item.id}</td>
-              <DetailsLink to={'/details'}>
-                <td>{item.name}</td>
-              </DetailsLink>
+              <DetailsLink to={`/details/${item.id}`}><td>{item.name}</td></DetailsLink>
               <td>{item.quantity}</td>
               <td>{item.description.substring(0, 100)}{item.description.length > 100 ? '...' : ''}</td>
               <td>

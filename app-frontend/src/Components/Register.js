@@ -99,7 +99,7 @@ const Register = () => {
         <Button type="submit">Register</Button>
       </form>
       <p>Already have an account?</p>
-      <Link to='/'></Link>
+      <Link to='/'>Log In</Link>
     </RegisterBox>
   );
 };
