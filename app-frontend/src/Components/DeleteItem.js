@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+//////////////////////////////////////////////////
+
 const DeleteItemButton = ({ itemId, userId, onDelete }) => {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this item?')) {
@@ -28,6 +30,8 @@ const DeleteItemButton = ({ itemId, userId, onDelete }) => {
   return <StyledButton onClick={handleDelete}>Delete</StyledButton>;
 };
 
+//////////////////////////////////////////////////
+
 const StyledButton = styled.button`
   background-color: red;
   color: white;
@@ -40,5 +44,7 @@ const StyledButton = styled.button`
     background-color: darkred;
   }
 `;
+
+//////////////////////////////////////////////////
 
 export default DeleteItemButton;

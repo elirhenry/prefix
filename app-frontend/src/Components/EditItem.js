@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
+//////////////////////////////////////////////////
 
 const EditItem = ({ item, onSave, onCancel }) => {
   const [editedItem, setEditedItem] = useState(item);
@@ -61,6 +63,8 @@ const EditItem = ({ item, onSave, onCancel }) => {
   );
 };
 
+//////////////////////////////////////////////////
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -96,5 +100,7 @@ const CancelButton = styled.button`
   padding: 5px 10px;
   cursor: pointer;
 `;
+
+//////////////////////////////////////////////////
 
 export default EditItem;

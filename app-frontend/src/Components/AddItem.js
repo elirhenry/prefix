@@ -9,7 +9,6 @@ const AddNewItem = () => {
   const [newItem, setNewItem] = useState({
     name: '',
     quantity: 0,
-    image: null,
     description: '',
   });
 
@@ -18,24 +17,13 @@ const AddNewItem = () => {
     setNewItem({ ...newItem, [name]: value });
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewItem({ ...newItem, image: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       const itemData = {
-        user_id: user.id, // Get user_id from logged-in user
+        user_id: user.id,
         ...newItem,
       };
 
@@ -53,7 +41,7 @@ const AddNewItem = () => {
       }
 
       alert('Item added successfully');
-      navigate('/user'); // Route back to the user's inventory page
+      navigate('/user');
     } catch (error) {
       console.error('Error adding item:', error);
       alert(error.message || 'Failed to add item. Please try again.');
@@ -88,15 +76,6 @@ const AddNewItem = () => {
             />
           </FormGroup>
           <FormGroup>
-            <Label>Image Upload:</Label>
-            <InputFileField
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
-          </FormGroup>
-          <FormGroup>
             <Label>Description:</Label>
             <TextareaField
               name="description"
@@ -117,14 +96,12 @@ const AddNewItem = () => {
 //////////////////////////////////////////////////
 
 const AddItemBox = styled.div`
-  text-align: center;
   border: 2px solid;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  max-width: 800px; /* Adjust as needed */
+  padding: 35px;
+  max-width: 800px;
+  max-width: 700px;
+  margin: 0 auto;
+  border-radius: 8px;
 `;
 
 const Title = styled.div`
@@ -133,7 +110,7 @@ const Title = styled.div`
 `;
 
 const FormContainer = styled.div`
-  max-width: 500px; /* Adjust as needed */
+  max-width: 500px;
   margin: 0 auto;
 `;
 
@@ -149,15 +126,6 @@ const Label = styled.label`
 `;
 
 const InputField = styled.input`
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-`;
-
-const InputFileField = styled.input`
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -187,6 +155,6 @@ const Button = styled.button`
   color: white;
 `;
 
-
+//////////////////////////////////////////////////
 
 export default AddNewItem;

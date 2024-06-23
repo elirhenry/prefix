@@ -17,13 +17,10 @@ const Register = () => {
 
   const handleSignUp = async (event) => {
     event.preventDefault();
-
-    // Validate all fields are filled out
     if (!newUser.first_name || !newUser.last_name || !newUser.username || !newUser.password) {
       setError('Fill out all fields you must.');
       return;
     }
-
     try {
       const response = await fetch('http://localhost:8080/auth/signup', {
         method: 'POST',
@@ -35,17 +32,14 @@ const Register = () => {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Unable to register user');
       }
-
       setNewUser({
         first_name: '',
         last_name: '',
         username: '',
         password: '',
       });
-      setError(null); // Clear any previous error
+      setError(null);
       alert('Registration successful, proceed to log in you can.');
-
-      // Navigate to the login page
       navigate('/');
     } catch (error) {
       console.error('Error registering user:', error);
@@ -153,8 +147,9 @@ const ErrorMessage = styled.div`
 `;
 
 const newUserId = styled.div`
-
 `;
+
+//////////////////////////////////////////////////
 
 export default Register;
 

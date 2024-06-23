@@ -1,12 +1,11 @@
 import { useAuth0 } from '@auth0/auth0-react';
-// import LogoutButton from './LogoutButton'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+//////////////////////////////////////////////////
+
 const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
-
-
 
   return (
     isAuthenticated && (

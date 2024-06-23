@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 
 //////////////////////////////////////////////////
-
 
 const useAuth = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -101,7 +100,6 @@ const InitialsCircle = styled.div`
   font-size: 18px;
   font-weight: bold;
 `;
-
 
 //////////////////////////////////////////////////
 

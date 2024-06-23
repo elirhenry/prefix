@@ -47,8 +47,6 @@ const UserInventory = () => {
         if (!response.ok) {
           throw new Error('Failed to delete item');
         }
-
-        // Remove the deleted item from the local state
         setData(prevData => prevData.filter(item => item.id !== itemId));
       } catch (error) {
         console.error('Error deleting item:', error);
@@ -72,7 +70,6 @@ const UserInventory = () => {
     setEditingItem(null);
   };
 
-
   return (
     <div className='container mt-5'>
       <AddItemLink to={'/add-item'}>New Item +</AddItemLink>
@@ -90,7 +87,7 @@ const UserInventory = () => {
           {data.map((item, index) => (
             <tr key={index}>
               <td>{item.id}</td>
-              <DetailsLink to={`/details/${item.id}`}><td>{item.name}</td></DetailsLink>
+              <DetailsLink to={`/product_details/${item.id}`}><td>{item.name}</td></DetailsLink>
               <td>{item.quantity}</td>
               <td>{item.description.substring(0, 100)}{item.description.length > 100 ? '...' : ''}</td>
               <td>

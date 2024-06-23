@@ -12,7 +12,14 @@ app.use(express.json());
 
 const db = knex(config.development);
 
+//GET welcome to the database
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the lightsaber inventory database!');
+});
+
 //GET list of users
+
 app.get('/users', (req, res) => {
   db('users')
     .select('id', 'first_name', 'last_name', 'username')
@@ -24,6 +31,7 @@ app.get('/users', (req, res) => {
 });
 
 //GET list of items
+
 app.get('/items', (req, res) => {
   db('items')
     .select('id', 'user_id', 'name', 'quantity', 'image', 'description')
@@ -34,7 +42,8 @@ app.get('/items', (req, res) => {
     });
 });
 
-// Login endpoint
+//POST login endpoint
+
 app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -65,6 +74,7 @@ app.post('/login', async (req, res) => {
 });
 
 // GET items based on user_id
+
 app.get('/items/:user_id', async (req, res) => {
   const { user_id } = req.params;
 
@@ -77,9 +87,8 @@ app.get('/items/:user_id', async (req, res) => {
   }
 });
 
-//POST new users and items
-
 // POST new users
+
 app.post('/auth/signup', async (req, res) => {
   try {
     const { first_name, last_name, username, password } = req.body;
@@ -106,7 +115,6 @@ app.post('/auth/signup', async (req, res) => {
 app.post('/items', async (req, res) => {
   try {
     const { user_id, name, quantity, description, image } = req.body;
-
     const [newItemId] = await db('items').insert({
       user_id,
       name,
@@ -114,7 +122,6 @@ app.post('/items', async (req, res) => {
       image,
       description
     }).returning('id');
-
     res.status(201).json({ id: newItemId, user_id, name, quantity, image, description });
   } catch (error) {
     console.error('Error adding item:', error);
@@ -123,21 +130,17 @@ app.post('/items', async (req, res) => {
 });
 
 // DELETE an item
+
 app.delete('/items/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { user_id } = req.body; // Assuming you'll send the user_id in the request body for verification
-
-    // First, check if the item belongs to the user
+    const { user_id } = req.body;
     const item = await db('items').where({ id, user_id }).first();
 
     if (!item) {
       return res.status(404).json({ error: 'Item not found or you do not have permission to delete this item' });
     }
-
-    // If the item exists and belongs to the user, delete it
     await db('items').where({ id }).del();
-
     res.json({ message: 'Item deleted successfully' });
   } catch (error) {
     console.error('Error deleting item:', error);
@@ -145,29 +148,23 @@ app.delete('/items/:id', async (req, res) => {
   }
 });
 
-//PATCH to edit an item
-
 // PATCH an item
+
 app.patch('/items/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { user_id, name, quantity, description, image } = req.body;
-
-    // First, check if the item belongs to the user
     const item = await db('items').where({ id, user_id }).first();
 
     if (!item) {
       return res.status(404).json({ error: 'Item not found or you do not have permission to edit this item' });
     }
-
-    // If the item exists and belongs to the user, update it
     await db('items').where({ id }).update({
       name,
       quantity,
       image,
       description
     });
-
     res.json({ message: 'Item updated successfully' });
   } catch (error) {
     console.error('Error updating item:', error);
@@ -176,6 +173,7 @@ app.patch('/items/:id', async (req, res) => {
 });
 
 //GET product details
+
 app.get('/details/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -191,5 +189,6 @@ app.get('/details/:id', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while fetching the item' });
   }
 });
+
 
 app.listen(port, () => { console.log(`App listening at http://localhost:${port}`) })
