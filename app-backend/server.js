@@ -145,4 +145,34 @@ app.delete('/items/:id', async (req, res) => {
   }
 });
 
+//PATCH to edit an item
+
+// PATCH an item
+app.patch('/items/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user_id, name, quantity, description, image } = req.body;
+
+    // First, check if the item belongs to the user
+    const item = await db('items').where({ id, user_id }).first();
+
+    if (!item) {
+      return res.status(404).json({ error: 'Item not found or you do not have permission to edit this item' });
+    }
+
+    // If the item exists and belongs to the user, update it
+    await db('items').where({ id }).update({
+      name,
+      quantity,
+      image,
+      description
+    });
+
+    res.json({ message: 'Item updated successfully' });
+  } catch (error) {
+    console.error('Error updating item:', error);
+    res.status(500).json({ error: 'An error occurred while updating the item' });
+  }
+});
+
 app.listen(port, () => { console.log(`App listening at http://localhost:${port}`) })

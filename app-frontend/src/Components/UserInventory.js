@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import EditItem from './EditItem';
 
 //////////////////////////////////////////////////
 
@@ -8,6 +9,7 @@ const UserInventory = () => {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
   const [refresh, setRefresh] = useState(0);
+  const [editingItem, setEditingItem] = useState(null);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -55,6 +57,22 @@ const UserInventory = () => {
     }
   };
 
+  const handleEdit = (item) => {
+    setEditingItem(item);
+  };
+
+  const handleSave = (updatedItem) => {
+    setData(prevData => prevData.map(item =>
+      item.id === updatedItem.id ? updatedItem : item
+    ));
+    setEditingItem(null);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingItem(null);
+  };
+
+
   return (
     <div className='container mt-5'>
       <AddItemLink to={'/add-item'}>New Item +</AddItemLink>
@@ -77,14 +95,25 @@ const UserInventory = () => {
               </DetailsLink>
               <td>{item.quantity}</td>
               <td>{item.description.substring(0, 100)}{item.description.length > 100 ? '...' : ''}</td>
-              <EditButton><button>Edit</button></EditButton>
-              <DeleteButton>
-                <button onClick={() => handleDelete(item.id)}>Delete</button>
-              </DeleteButton>
+              <td>
+                <EditButton onClick={() => handleEdit(item)}>Edit</EditButton>
+                <DeleteButton onClick={() => handleDelete(item.id)}>Delete</DeleteButton>
+              </td>
             </tr>
           ))}
         </tbody>
       </StyledTable>
+
+      {editingItem && (
+        <EditSection>
+          <h3>Edit Item</h3>
+          <EditItem
+            item={editingItem}
+            onSave={handleSave}
+            onCancel={handleCancelEdit}
+          />
+        </EditSection>
+      )}
     </div>
   );
 };
@@ -112,19 +141,29 @@ border-spacing: 1rem;
 margin-left: 2.5rem;
 `
 
-const EditButton = styled.td`
-  button {
-    background-color: blue;
-    color: white;
-  }
-`
+const EditButton = styled.button`
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-right: 5px;
+`;
 
-const DeleteButton = styled.td`
-  button {
-    background-color: red;
-    color: white;
-  }
-`
+const DeleteButton = styled.button`
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+`;
+
+const EditSection = styled.div`
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
 
 //////////////////////////////////////////////////
 
