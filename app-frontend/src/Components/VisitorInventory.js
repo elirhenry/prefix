@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 
 //////////////////////////////////////////////////
 
+
 const VisitorInventory = () => {
-  const[data, setData] = useState([])
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:8080/items')
@@ -14,7 +15,7 @@ const VisitorInventory = () => {
         setData(data);
       })
       .catch(err => console.log(err));
-  }, [data]);
+  }, []);
 
   return (
     <div className='container mt-5'>
@@ -32,18 +33,15 @@ const VisitorInventory = () => {
           {data.map((item, index) => (
             <tr key={index}>
               <td>{item.id}</td>
-                <DetailsLink to={'/details'}>
-                  <td>{item.name}</td>
-                </DetailsLink>
+              <DetailsLink to={`/details/${item.id}`}>
+                <td>{item.name}</td>
+              </DetailsLink>
               <td>{item.quantity}</td>
               <td>{item.description.substring(0, 100)}{item.description.length > 100 ? '...' : ''}</td>
-              {/* <EditButton><button>Edit</button></EditButton>
-              <DeleteButton><button>Delete</button></DeleteButton> */}
             </tr>
           ))}
         </tbody>
       </StyledTable>
-
     </div>
   );
 };
@@ -70,20 +68,6 @@ width: 100%;
 border-spacing: 1rem;
 margin-left: 2.5rem;
 `
-
-// const EditButton = styled.td`
-//   button {
-//     background-color: blue;
-//     color: white;
-//   }
-// `
-
-// const DeleteButton = styled.td`
-//   button {
-//     background-color: red;
-//     color: white;
-//   }
-// `
 
 //////////////////////////////////////////////////
 

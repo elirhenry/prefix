@@ -86,7 +86,7 @@ const Visitor =styled.div`
 text-align:center;
   border: 2px solid;
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 23px;`
@@ -99,7 +99,7 @@ const LoginBox = styled.div`
   text-align:center;
   border: 2px solid;
   position: absolute;
-  top: 50%;
+  top: 37%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;`

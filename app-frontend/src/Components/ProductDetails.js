@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+//////////////////////////////////////////////////
+
 const ProductDetails = () => {
   const [item, setItem] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/product/${id}`)
+    fetch(`http://localhost:8080/details/${id}`)
       .then(response => response.json())
       .then(data => setItem(data))
       .catch(err => console.error('Error fetching item details:', err));
@@ -19,7 +21,7 @@ const ProductDetails = () => {
 
   return (
     <Container>
-      <BackLink to="/user">Back to Inventory</BackLink>
+      <BackLink to="/visitor">Back to Inventory</BackLink>
       <ProductCard>
         <ProductImage src={item.image} alt={item.name} />
         <ProductInfo>
@@ -31,6 +33,8 @@ const ProductDetails = () => {
     </Container>
   );
 };
+
+//////////////////////////////////////////////////
 
 const Container = styled.div`
   max-width: 800px;

@@ -176,7 +176,7 @@ app.patch('/items/:id', async (req, res) => {
 });
 
 //GET product details
-app.get('/product/:id', async (req, res) => {
+app.get('/details/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const item = await db('items').where({ id }).first();
